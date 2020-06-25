@@ -1,4 +1,4 @@
-package nl.unreadable.YPPPP;
+package main.java.com.puzzlepirates.YPPPP;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -54,8 +54,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import nl.unreadable.YPPPP.model.YPPPPModel;
-import nl.unreadable.YPPPP.model.YPPPPPirate;
+import main.java.com.puzzlepirates.YPPPP.model.YPPPPModel;
+import main.java.com.puzzlepirates.YPPPP.model.YPPPPPirate;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

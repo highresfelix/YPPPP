@@ -1,4 +1,4 @@
-package nl.unreadable.YPPPP;
+package main.java.com.puzzlepirates.YPPPP;
 
 public class YPPPP {
 
@@ -7,5 +7,4 @@ public class YPPPP {
 		new YPPPPController(view); 
 		view.setVisible(true);
 	}
-
 }

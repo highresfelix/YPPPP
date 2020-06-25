@@ -1,4 +1,4 @@
-package nl.unreadable.YPPPP.model;
+package main.java.com.puzzlepirates.YPPPP.model;
 
 public class YPPPPShip {
 	String type;
@@ -11,8 +11,7 @@ public class YPPPPShip {
 	
 	double damage; // current damage
 	
-	public YPPPPShip(YPPPPShip prototype)
-	{
+	public YPPPPShip(YPPPPShip prototype) {
 		type = prototype.type;
 		cb_damage = prototype.cb_damage;
 		ram_damage = prototype.ram_damage;
@@ -22,8 +21,8 @@ public class YPPPPShip {
 		size = prototype.size;
 		damage = prototype.damage;
 	}
-	public YPPPPShip (String t, double c, double ra, double sf, double si, double ro, YPPPPSize sc)
-	{
+
+	public YPPPPShip (String t, double c, double ra, double sf, double si, double ro, YPPPPSize sc) {
 		type = t;
 		cb_damage = c;
 		ram_damage = ra;
@@ -34,8 +33,7 @@ public class YPPPPShip {
 		damage = 0;
 	}
 	
-	public void changeType(YPPPPShip prototype)
-	{
+	public void changeType(YPPPPShip prototype) {
 		type = prototype.type;
 		cb_damage = prototype.cb_damage;
 		ram_damage = prototype.ram_damage;
