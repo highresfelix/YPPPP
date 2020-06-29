@@ -61,7 +61,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.sun.org.apache.xerces.internal.parsers.DOMParser;
+//import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
 public class YPPPPView extends JFrame{
 	public static final long serialVersionUID = 9L;
@@ -96,7 +96,7 @@ public class YPPPPView extends JFrame{
 	 
 	//PI
 	private JPanel piPanel;
-	boolean pi = true;
+	boolean pi = false;
 	private JTextField nameTxt;
 	private JLabel nameLab;
 	private JTable pirateTable;
@@ -105,15 +105,14 @@ public class YPPPPView extends JFrame{
 	private static Vector<String> blacklist,goldlist;
 	private JButton piEnterBut, piCopyBut, piDelBut, piClearBut, piGoldBut, piBlackBut;
 	private JComboBox oceanChoice;
-	private static String ocean = "midnight";	
+	private static String ocean = "emerald";
 	private final int listVoid = 20, listGold = 10, listBlack = -1;
 	private static boolean preferenceError = false;
 	
 	//PS
 	//private JPanel psPanel;
 	
-	public YPPPPView()
-	{
+	public YPPPPView() {
 		JFrame.setDefaultLookAndFeelDecorated(true);	
 	    try {
 	    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());	    	
@@ -122,7 +121,7 @@ public class YPPPPView extends JFrame{
 	      }
 		this.setTitle("Damage Counter of YPPPP: Yohoho Puzzle Pirate Pillage Program");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(365,680);
+		this.setSize(465,680);
 		view = this;
 		allBox = new JPanel();
 		systemClipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -142,13 +141,13 @@ public class YPPPPView extends JFrame{
 		intToStat = new Hashtable<Integer,String>();
 		intToStat.put(0, "Able"); intToStat.put(1, "Distinguished"); intToStat.put(2, "Respected"); intToStat.put(3, "Master"); intToStat.put(4, "Renowned"); intToStat.put(5, "Grand-Master"); intToStat.put(6, "Legendary"); intToStat.put(7, "Ultimate");
 	}
-	private void drawView(){
+	private void drawView() {
 		dc = dcCheck.isSelected();
 		pi = piCheck.isSelected();
 		content.remove(allBox);
 		allBox = new JPanel();
 		allBox.setLayout(new BoxLayout(allBox, BoxLayout.PAGE_AXIS));		
-		view.setSize(365,40 + (dc ? 200 : 0) + (pi ? 510 : 0));
+		view.setSize(465,40 + (dc ? 200 : 0) + (pi ? 510 : 0));
 		allBox.add(YPPPPPanel()); 
 		if (dc) {allBox.add(new JSeparator(SwingConstants.HORIZONTAL));allBox.add(dcPanel); }
 		if (pi) {allBox.add(new JSeparator(SwingConstants.HORIZONTAL));allBox.add(piPanel);}
@@ -158,7 +157,7 @@ public class YPPPPView extends JFrame{
 	/*
 	 * Panels
 	 */
-	private JPanel YPPPPPanel(){
+	private JPanel YPPPPPanel() {
 		JPanel allBox = new JPanel();
 		allBox.setLayout(new GridLayout(1,3));
 		dcCheck = new JCheckBox("DC",dc); dcCheck.addActionListener(new panelHandler(dcPanel)); allBox.add(dcCheck);
@@ -166,7 +165,8 @@ public class YPPPPView extends JFrame{
 		exitButton = new JButton("Exit"); exitButton.addActionListener(new ExitHandler()); allBox.add(exitButton);
 		return allBox;
 	}
-	private JPanel piPanel(){
+
+	private JPanel piPanel() {
 		// Global box
 		JPanel allBox = new JPanel();
 		allBox.setLayout(new BoxLayout(allBox, BoxLayout.PAGE_AXIS));
@@ -225,12 +225,13 @@ public class YPPPPView extends JFrame{
 			piCopyBut = new JButton("Job-Copy"); piCopyBut.addActionListener(new piCopyHandler()); buttonBoxXO.add(piCopyBut);
 			piBlackBut = new JButton("(Un)Blacklist"); piBlackBut.addActionListener(new BlackListHandler()); buttonBoxXO.add(piBlackBut);
 			piGoldBut = new JButton("(Un)Goldlist"); piGoldBut.addActionListener(new GoldListHandler()); buttonBoxXO.add(piGoldBut);
-			String[] oceans = {"midnight","cobalt","viridian","sage","hunter","opal","malachite","jade","crimson","ice"}; oceanChoice = new JComboBox(oceans); oceanChoice.addActionListener(new OceanChangeHandler(oceanChoice)); oceanChoice.setSelectedItem(ocean); buttonBoxXO.add(oceanChoice);
+			String[] oceans = {"cerulean","meridian","emerald","opal","jade","ice"}; oceanChoice = new JComboBox(oceans); oceanChoice.addActionListener(new OceanChangeHandler(oceanChoice)); oceanChoice.setSelectedItem(ocean); buttonBoxXO.add(oceanChoice);
 			buttonBox.add(buttonBoxXO);
 		allBox.add(buttonBox);
 		return allBox;
 	}
-	private JPanel dcPanel(){
+
+	private JPanel dcPanel() {
 		JPanel allBox = new JPanel();
 		allBox.setLayout(new BoxLayout(allBox, BoxLayout.LINE_AXIS));
 		
@@ -290,8 +291,7 @@ public class YPPPPView extends JFrame{
 	/*
 	 * Update
 	 */
-	public void Update()
-	{
+	public void Update() {
 		myShipChoice.setSelectedItem((model.getShipType(true).substring(2)));
 		myDamageLab.setText(model.getDamage(true));
 		myMoreInfoLab.setText(model.getMoreInfo(true));
@@ -304,7 +304,7 @@ public class YPPPPView extends JFrame{
 	/*
 	 * XML reading and writing
 	 */
-	private void getPreferences(){
+	private void getPreferences() {
 		try {
 			goldlist = new Vector<String>();
 			blacklist = new Vector<String>();
@@ -312,9 +312,15 @@ public class YPPPPView extends JFrame{
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("preferences.xml"));
 			ocean = doc.getElementsByTagName("ocean").item(0).getChildNodes().item(0).getNodeValue();
 			*/
-			DOMParser parser = new DOMParser();
-			parser.parse("preferences.xml");
-			Document doc = parser.getDocument();
+
+//			DOMParser parser = new DOMParser();
+//			parser.parse("preferences.xml");
+//			Document doc = parser.getDocument();
+
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(new File("preferences.xml"));
+
 			ocean = doc.getElementsByTagName("Ocean").item(0).getAttributes().item(0).getNodeValue();
 			int listcnt = Integer.parseInt(doc.getElementsByTagName("ListCnt").item(0).getAttributes().item(0).getNodeValue());
 			Node test;
@@ -327,7 +333,8 @@ public class YPPPPView extends JFrame{
 			}
 		} catch(Exception e){preferenceError = true;}
 	}
-	private void savePreferences(){
+
+	private void savePreferences() {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder parser = factory.newDocumentBuilder();
@@ -361,7 +368,7 @@ public class YPPPPView extends JFrame{
 	/*
 	 * Adding pirates to table
 	 */
-	private void addPirate(){
+	private void addPirate() {
 		YPPPPPirate p = new YPPPPPirate();
 		p = getPirateInfo(nameTxt.getText());
 		if (p == null){
@@ -374,8 +381,8 @@ public class YPPPPView extends JFrame{
 		pirateData.put(p.getName(), test);
 		((HashTableModel) pirateTable.getModel()).fireTableDataChanged();
 	}
-	private YPPPPPirate getPirateInfo(String name)
-	{
+
+	private YPPPPPirate getPirateInfo(String name) {
 		try{
 			YPPPPPirate p = new YPPPPPirate(name);
 			URL url = new URL("http://" + ocean + ".puzzlepirates.com/yoweb/pirate.wm?target=" + name);
@@ -397,13 +404,15 @@ public class YPPPPView extends JFrame{
 			return p;
 		}catch(Exception e){return null;}
 	}
-	private String readNameLine() throws Exception{
+
+	private String readNameLine() throws Exception {
 		while (!line.contains("<td align=\"center\" height=\"32\"><font size=\"+1\"><b>") && (line = in.readLine()) != null){}
 		tempMatch = namePattern.matcher(line);
 		if (!tempMatch.find()) return "";
 		return line.substring(tempMatch.end(), line.length()-16);
 	}
-	private int readStatLine(String stat, String nextStat) throws Exception{
+
+	private int readStatLine(String stat, String nextStat) throws Exception {
 		// read till we are really at stat
 		while (!line.contains("alt=\"" + stat + "\"></a></td>") && (line = in.readLine()) != null && !line.contains("alt=\"" + stat + "\"></a></td>")){}
 		while((line=in.readLine()) != null && !line.contains("/")){}
@@ -417,12 +426,14 @@ public class YPPPPView extends JFrame{
 		}
 		return stand;
 	}
-	private int readStat(String line){
+
+	private int readStat(String line) {
 		tempMatch = statPattern.matcher(line);
 		if (!tempMatch.find()) return 0;
 		return statToInt.get(line.substring(tempMatch.end(), line.length()-4));
 	}
-	private int readOceanStat(String line){
+
+	private int readOceanStat(String line) {
 		tempMatch = oceanStatPattern.matcher(line);
 		if (!tempMatch.find()) return 0;
 		return statToInt.get(line.substring(tempMatch.end(), line.length()-12));
@@ -430,17 +441,19 @@ public class YPPPPView extends JFrame{
 	/*
 	 * Managing Lists
 	 */
-	private void clear(){
+	private void clear() {
 		int index = pirateTable.getSelectedRow();
 		pirateData.remove(pirateTable.getValueAt(index,0));
 		//((HashTableModel) pirateTable.getModel()).fireTableDataChanged();
 		((HashTableModel) pirateTable.getModel()).fireTableRowsDeleted(index, index); 
 	}
-	private void clearAll(){
+
+	private void clearAll() {
 		pirateData.clear();
 		((HashTableModel) pirateTable.getModel()).fireTableDataChanged();
 	}
-	private void goldlist(){
+
+	private void goldlist() {
 		int index = pirateTable.getSelectedRow();
 		String name = (String) pirateTable.getValueAt(index, 0);
 		Integer[] temp = pirateData.get(name);
@@ -454,7 +467,8 @@ public class YPPPPView extends JFrame{
 		}
 		((HashTableModel) pirateTable.getModel()).fireTableCellUpdated(index, 12);  
 	}
-	private void blacklist(){
+
+	private void blacklist() {
 		int index = pirateTable.getSelectedRow();
 		String name = (String) pirateTable.getValueAt(index, 0);
 		Integer[] temp = pirateData.get(name);
@@ -471,11 +485,12 @@ public class YPPPPView extends JFrame{
 	/*
 	 * Display of text and icons in table cells
 	 */
-	private TextOrIcon getIcon(String text, String icon){
+	private TextOrIcon getIcon(String text, String icon) {
 		File f = new File(icon);
 		TextOrIcon toi = new TextOrIcon(text, f.exists() ? new ImageIcon(icon) : null);
 		return toi;
-	}	
+	}
+
 	private class TextOrIcon {
     	TextOrIcon(String text, Icon icon) {
         	this.text = text;
@@ -484,6 +499,7 @@ public class YPPPPView extends JFrame{
         String text;
         Icon icon;
 	}
+
 	private class iconHeaderRenderer extends DefaultTableCellRenderer {
 		public static final long serialVersionUID = 9L;
 		public Component getTableCellRendererComponent(JTable table, Object value,boolean isSelected, boolean hasFocus, int row, int column) {
@@ -533,8 +549,8 @@ public class YPPPPView extends JFrame{
 			return new Object();
 		}
 	}
-	private class statTableCellRenderer extends DefaultTableCellRenderer 
-	{
+
+	private class statTableCellRenderer extends DefaultTableCellRenderer {
 		public static final long serialVersionUID = 9L;
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -568,7 +584,7 @@ public class YPPPPView extends JFrame{
 	/*
 	 * Handlers (checkbox/button/enter)
 	 */
-	private class panelHandler implements ActionListener{
+	private class panelHandler implements ActionListener {
 		private JPanel target;
 		panelHandler(JPanel t){target = t;}
 		public void actionPerformed(ActionEvent e){
@@ -576,38 +592,46 @@ public class YPPPPView extends JFrame{
 			drawView();
 		}
 	}
-	private class ExitHandler implements ActionListener{
+
+	private class ExitHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			savePreferences();
 			if (preferenceError){System.out.println("Error writing to preference.xml");	}
 			System.exit(0);
 		}
-	}	
-	private class SinkingHandler implements ActionListener{
+	}
+
+	private class SinkingHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){model.toggleSinking();}
 	}
-	private class LinesHandler implements ActionListener{
+
+	private class LinesHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){model.toggleLines();}
 	}
-	private class CollideHandler implements ActionListener{
+
+	private class CollideHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){model.collide();}
 	}
-	private class UndoHandler implements ActionListener{
+
+	private class UndoHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){model.undo();}
 	}
 	/*private class RedoHandler implements ActionListener{
 		public void actionPerformed(ActionEvent e){model.redo();}
 	}*/
-	private class ResetHandler implements ActionListener{
+	private class ResetHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){model.reset();}
 	}
-	private class dcCopyHandler implements ActionListener{
+
+	private class dcCopyHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){systemClipboard.setContents(new StringSelection(model.getCopyText()), null);}
 	}
-	private class piCopyHandler implements ActionListener{
+
+	private class piCopyHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){systemClipboard.setContents(new StringSelection("/job "+pirateTable.getValueAt(pirateTable.getSelectedRow(),0)), null);}
 	}
-	private class ShipChangeHandler implements ActionListener{
+
+	private class ShipChangeHandler implements ActionListener {
 		private boolean me;
 		private JComboBox combobox;
 		ShipChangeHandler(boolean m, JComboBox box){me = m; combobox = box; }
@@ -615,34 +639,40 @@ public class YPPPPView extends JFrame{
 			model.changeShipType(shipName.format(combobox.getSelectedIndex()) + (String) combobox.getSelectedItem(), me);
 			}
 	}
-	private class ShotHandler implements ActionListener{
+
+	private class ShotHandler implements ActionListener {
 		private boolean me;
 		ShotHandler(boolean m){me = m;}
 		public void actionPerformed(ActionEvent e){model.shoot(me);}
 	}
-	private class RockHandler implements ActionListener{
+
+	private class RockHandler implements ActionListener {
 		private boolean me;
 		RockHandler(boolean m){me = m;}
 		public void actionPerformed(ActionEvent e){model.hitRocks(me);}
 	}
-	private class EnterHandler implements ActionListener{
+
+	private class EnterHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){addPirate();}
 	}
-	private class ClearHandler implements ActionListener{
+
+	private class ClearHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){clear();}
 	}
-	private class ClearAllHandler implements ActionListener{
+
+	private class ClearAllHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){clearAll();}
 	}
-	private class OceanChangeHandler implements ActionListener{
+	private class OceanChangeHandler implements ActionListener {
 		private JComboBox combobox;
 		OceanChangeHandler(JComboBox box){combobox = box; }
 		public void actionPerformed(ActionEvent e){ocean = (String) combobox.getSelectedItem();}
 	}
-	private class BlackListHandler implements ActionListener{
+	private class BlackListHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){blacklist();}
 	}
-	private class GoldListHandler implements ActionListener{
+
+	private class GoldListHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){goldlist();}
 	}
 }
